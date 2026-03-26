@@ -1,9 +1,17 @@
 export interface ODataConfig {
-  baseUrl: string;
+  hostname: string;
+  sysnr: string;
+  useHttps: boolean;
   username: string;
   password: string;
   client?: string;
   odataPath: string;
+}
+
+export function buildBaseUrl(config: ODataConfig): string {
+  const protocol = config.useHttps ? "https" : "http";
+  const port = config.useHttps ? `443${config.sysnr}` : `80${config.sysnr}`;
+  return `${protocol}://${config.hostname}:${port}`;
 }
 
 export interface BusinessPartner {

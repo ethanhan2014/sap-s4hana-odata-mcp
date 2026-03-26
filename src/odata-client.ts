@@ -6,6 +6,7 @@ import type {
   ODataEntityResponse,
   BusinessPartner,
 } from "./types.js";
+import { buildBaseUrl } from "./types.js";
 
 export class ODataClient {
   private http: AxiosInstance;
@@ -13,6 +14,7 @@ export class ODataClient {
 
   constructor(config: ODataConfig) {
     this.odataPath = config.odataPath;
+    const baseURL = buildBaseUrl(config);
 
     const headers: Record<string, string> = {
       Accept: "application/json",
@@ -22,7 +24,7 @@ export class ODataClient {
     }
 
     this.http = axios.create({
-      baseURL: config.baseUrl,
+      baseURL,
       headers,
       auth: {
         username: config.username,

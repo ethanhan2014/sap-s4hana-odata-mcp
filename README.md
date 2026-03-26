@@ -23,11 +23,28 @@ All settings are in `.env`:
 
 | Variable | Required | Description | Example |
 |----------|----------|-------------|---------|
-| `S4HANA_BASE_URL` | Yes | S/4HANA host with protocol and port | `https://s4hana.example.com:44350` |
+| `S4HANA_HOSTNAME` | Yes | S/4HANA application server hostname | `s4hana.example.com` |
+| `S4HANA_SYSNR` | Yes | SAP system number (00-99) | `50` |
+| `S4HANA_USE_HTTPS` | No | Use HTTPS (default: `true`) | `true` |
 | `S4HANA_USERNAME` | Yes | SAP technical user | `TECH_USER` |
 | `S4HANA_PASSWORD` | Yes | Password | `secret123` |
 | `S4HANA_CLIENT` | No | SAP client number | `001` |
 | `S4HANA_ODATA_PATH` | No | OData service path (default: `/sap/opu/odata/sap/API_BUSINESS_PARTNER`) | `/sap/opu/odata/sap/API_BUSINESS_PARTNER` |
+
+### Port Calculation
+
+The HTTP/HTTPS port is derived from the system number:
+
+- **HTTPS port** = `443` + system number (e.g. sysnr `50` -> port `44350`)
+- **HTTP port** = `80` + system number (e.g. sysnr `50` -> port `8050`)
+
+### Finding Your Connection Details
+
+Run transaction **SMICM** in SAP GUI to find the hostname, system number, and active ports:
+
+1. Open SAP GUI and enter tcode `SMICM`
+2. Go to **Goto > Services** to see the list of active HTTP/HTTPS services
+3. Note the **hostname** and **port numbers** — the system number is the last two digits of the port (e.g. port `44350` means sysnr `50`)
 
 ## Usage with Claude Code
 
